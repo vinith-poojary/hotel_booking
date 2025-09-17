@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body, html {
+    margin: 0; padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+  }
+  header {
+    background: #003580;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 1.8em;
+  }
+  .Agnirvasearch-section {
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .Agnirvasearch-section label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .Agnirvasearch-section input, .Agnirvasearch-section select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  .Agnirvasearch-section div {
+    flex: 1 1 200px;
+    min-width: 200px;
+  }
+  .Agnirvasearch-section button {
+    background: #0071c2;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    margin-top: 22px;
+    width: 100%;
+  }
+  .Agnirvasearch-section button:hover {
+    background: #005999;
+  }
+  .Agnirvawrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .Agnirvasection-header {
+    margin: 40px 0 20px;
+    font-size: 1.4em;
+    font-weight: bold;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+  }
+  .Agnirvahotels-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .Agnirvahotel-card {
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    flex: 1 1 calc(33% - 40px);
+    min-width: 280px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+  }
+  .Agnirvahotel-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  .Agnirvahotel-info {
+    padding: 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .Agnirvahotel-info h3 {
+    margin: 0 0 10px;
+    font-size: 1.1em;
+  }
+  .Agnirvahotel-info p {
+    margin: 0 0 10px;
+    flex: 1;
+  }
+  .Agnirvaprice {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .Agnirvahotel-info .rating {
+    margin-bottom: 10px;
+    color: #f39c12;
+  }
+  .Agnirvahotel-info button {
+    background: #0071c2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+  }
+  .Agnirvahotel-info button:hover {
+    background: #005999;
+  }
+  #AgnirvabookingsModal {
+    position: fixed;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+  .Agnirvamodal-content {
+    background: #fff;
+    width: 300px;
+    padding: 20px;
+    border-radius: 4px;
+    position: relative;
+  }
+  .Agnirvamodal-content h2 {
+    margin-top: 0;
+  }
+  .Agnirvamodal-content label {
+    display: block;
+    margin: 10px 0 5px;
+  }
+  .Agnirvamodal-content input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  .Agnirvamodal-content button {
+    background: #0071c2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+  }
+  .Agnirvamodal-content button:hover {
+    background: #005999;
+  }
+  .Agnirvaclose-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+  }
+  .Agnirvamy-bookings {
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    padding: 20px;
+  }
+  .Agnirvamy-bookings table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  .Agnirvamy-bookings th, .Agnirvamy-bookings td {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  .Agnirvamy-bookings th {
+    background: #f0f0f0;
+  }
+  #AgnirvaclearBookingsBtn {
+    margin-top: 20px;
+    background: #c0392b;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  #AgnirvaclearBookingsBtn:hover {
+    background: #a22e1d;
+  }
+  @media(max-width: 768px) {
+    .Agnirvahotel-card {
+      flex: 1 1 100%;
+    }
+    .Agnirvasearch-section {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+</style>
+<title>Mock Hotel Booking</title>
+</head>
+<body>
+<header>
+  <h1>Mock Hotels</h1>
+</header>
+<div class="Agnirvasearch-section">
+  <div>
+    <label for="AgnirvalocationInput">Where to?</label>
+    <input type="text" id="AgnirvalocationInput" placeholder="City or Destination" />
+  </div>
+  <div>
+    <label for="AgnirvacheckInInput">Check-in</label>
+    <input type="date" id="AgnirvacheckInInput" />
+  </div>
+  <div>
+    <label for="AgnirvacheckOutInput">Check-out</label>
+    <input type="date" id="AgnirvacheckOutInput" />
+  </div>
+  <div>
+    <label for="AgnirvaguestsInput">Guests</label>
+    <select id="AgnirvaguestsInput">
+      <option value="1">1 guest</option>
+      <option value="2" selected>2 guests</option>
+      <option value="3">3 guests</option>
+      <option value="4">4 guests</option>
+    </select>
+  </div>
+  <div>
+    <label for="AgnirvasortInput">Sort By</label>
+    <select id="AgnirvasortInput">
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+      <option value="rating-desc">Rating: High to Low</option>
+      <option value="location-asc">Location: A to Z</option>
+    </select>
+  </div>
+  <div>
+    <button id="AgnirvasearchBtn">Search</button>
+  </div>
+</div>
+<div class="Agnirvawrapper">
+  <div class="Agnirvasection-header">Available Hotels</div>
+  <div class="Agnirvahotels-list" id="AgnirvahotelsList"></div>
+  <div class="Agnirvasection-header">My Bookings</div>
+  <div class="Agnirvamy-bookings">
+    <table id="AgnirvabookingsTable">
+      <thead>
+        <tr>
+          <th>Hotel</th>
+          <th>Location</th>
+          <th>Check-in</th>
+          <th>Check-out</th>
+          <th>Guests</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button id="AgnirvaclearBookingsBtn">Clear All Bookings</button>
+  </div>
+</div>
+<div id="AgnirvabookingsModal">
+  <div class="Agnirvamodal-content">
+    <button class="Agnirvaclose-btn" onclick="AgnirvacloseModal()">×</button>
+    <h2>Complete Booking</h2>
+    <p>Hotel: <span id="AgnirvamodalHotelName"></span></p>
+    <p>Location: <span id="AgnirvamodalHotelLocation"></span></p>
+    <label for="AgnirvaguestNameInput">Your Name</label>
+    <input type="text" id="AgnirvaguestNameInput" placeholder="John Doe" required />
+    <label for="AgnirvaguestEmailInput">Your Email</label>
+    <input type="email" id="AgnirvaguestEmailInput" placeholder="john@example.com" required />
+    <button id="AgnirvaconfirmBookingBtn">Confirm Booking</button>
+  </div>
+</div>
+<script>
+  const Agnirvahotels = [
+    {
+      name: "Seaside Resort",
+      location: "Miami Beach, FL",
+      img: "images/seaside.jpg",
+      price: 150,
+      rating: 4.5,
+      description: "Beautiful beachside resort with stunning ocean views."
+    },
+    {
+      name: "Mountain View Inn",
+      location: "Aspen, CO",
+      img: "images/mountain_view_inn.jpg",
+      price: 200,
+      rating: 4.2,
+      description: "Cozy hotel with scenic mountain vistas and warm hospitality."
+    },
+    {
+      name: "City Central Hotel",
+      location: "New York, NY",
+      img: "images/hotel-city-central.jpg",
+      price: 180,
+      rating: 4.0,
+      description: "Modern hotel located in the heart of the city."
+    },
+    {
+      name: "Desert Oasis Lodge",
+      location: "Phoenix, AZ",
+      img: "images/desert_resort.jpg",
+      price: 120,
+      rating: 3.8,
+      description: "Tranquil desert lodge with a serene environment."
+    },
+    {
+      name: "Lakeside Retreat",
+      location: "Lake Tahoe, CA",
+      img: "images/lakeside_retreat.jpg",
+      price: 220,
+      rating: 4.7,
+      description: "Relaxing lakeside resort, perfect for a weekend getaway."
+    },
+    {
+      name: "Historic Downtown Inn",
+      location: "Boston, MA",
+      img: "images/historic_downtown_hotel.jpg",
+      price: 160,
+      rating: 4.3,
+      description: "Charming inn with rich history and elegant rooms."
+    }
+  ];
+
+  const AgnirvahotelsList = document.getElementById('AgnirvahotelsList');
+  const AgnirvabookingsTable = document.getElementById('AgnirvabookingsTable').querySelector('tbody');
+  const AgnirvabookingsModal = document.getElementById('AgnirvabookingsModal');
+  const AgnirvamodalHotelName = document.getElementById('AgnirvamodalHotelName');
+  const AgnirvamodalHotelLocation = document.getElementById('AgnirvamodalHotelLocation');
+  const AgnirvaguestNameInput = document.getElementById('AgnirvaguestNameInput');
+  const AgnirvaguestEmailInput = document.getElementById('AgnirvaguestEmailInput');
+  const AgnirvaconfirmBookingBtn = document.getElementById('AgnirvaconfirmBookingBtn');
+  const AgnirvaclearBookingsBtn = document.getElementById('AgnirvaclearBookingsBtn');
+  const AgnirvasortInput = document.getElementById('AgnirvasortInput');
+
+  let AgnirvaselectedHotel = null;
+  let AgnirvasearchParams = {
+    location: "",
+    checkIn: "",
+    checkOut: "",
+    guests: 2,
+    sortBy: "price-asc"
+  };
+
+  const AgnirvasavedBookings = JSON.parse(localStorage.getItem('bookings')) || [];
+
+  function AgnirvasortHotels(hotels, sortBy) {
+    const sortedHotels = [...hotels];
+    switch (sortBy) {
+      case 'price-asc':
+        return sortedHotels.sort((a, b) => a.price - b.price);
+      case 'price-desc':
+        return sortedHotels.sort((a, b) => b.price - a.price);
+      case 'rating-desc':
+        return sortedHotels.sort((a, b) => b.rating - a.rating);
+      case 'location-asc':
+        return sortedHotels.sort((a, b) => a.location.localeCompare(b.location));
+      default:
+        return sortedHotels;
+    }
+  }
+
+  function AgnirvarennderHotels(filteredHotels) {
+    AgnirvahotelsList.innerHTML = '';
+    filteredHotels.forEach(hotel => {
+      const Agnirvacard = document.createElement('div');
+      Agnirvacard.classList.add('Agnirvahotel-card');
+      Agnirvacard.innerHTML = `
+        <img src="${hotel.img}" alt="${hotel.name}">
+        <div class="Agnirvahotel-info">
+          <h3>${hotel.name}</h3>
+          <p>${hotel.description}</p>
+          <p class="rating">Rating: ${hotel.rating}/5</p>
+          <p class="Agnirvaprice">$${hotel.price}/night</p>
+          <button onclick="AgnirvastartBooking('${hotel.name}', '${hotel.location}')">Book</button>
+        </div>
+      `;
+      AgnirvahotelsList.appendChild(Agnirvacard);
+    });
+  }
+
+  function AgnirvadisplayBookings() {
+    AgnirvabookingsTable.innerHTML = '';
+    AgnirvasavedBookings.forEach(booking => {
+      const Agnirvatr = document.createElement('tr');
+      Agnirvatr.innerHTML = `
+        <td>${booking.hotel}</td>
+        <td>${booking.location}</td>
+        <td>${booking.checkIn}</td>
+        <td>${booking.checkOut}</td>
+        <td>${booking.guests}</td>
+      `;
+      AgnirvabookingsTable.appendChild(Agnirvatr);
+    });
+  }
+
+  function AgnirvaopenModal(hotelName, hotelLocation) {
+    AgnirvamodalHotelName.textContent = hotelName;
+    AgnirvamodalHotelLocation.textContent = hotelLocation;
+    AgnirvabookingsModal.style.display = 'flex';
+  }
+
+  function AgnirvacloseModal() {
+    AgnirvabookingsModal.style.display = 'none';
+  }
+
+  function AgnirvastartBooking(hotelName, hotelLocation) {
+    AgnirvaselectedHotel = { name: hotelName, location: hotelLocation };
+    AgnirvaopenModal(hotelName, hotelLocation);
+  }
+
+  AgnirvaconfirmBookingBtn.addEventListener('click', () => {
+    const AgnirvaguestName = AgnirvaguestNameInput.value.trim();
+    const AgnirvaguestEmail = AgnirvaguestEmailInput.value.trim();
+    if (!AgnirvaguestName || !AgnirvaguestEmail) {
+      alert("Please fill out your name and email.");
+      return;
+    }
+    const AgnirvanewBooking = {
+      hotel: AgnirvaselectedHotel.name,
+      location: AgnirvaselectedHotel.location,
+      checkIn: AgnirvasearchParams.checkIn,
+      checkOut: AgnirvasearchParams.checkOut,
+      guests: AgnirvasearchParams.guests
+    };
+    AgnirvasavedBookings.push(AgnirvanewBooking);
+    localStorage.setItem('bookings', JSON.stringify(AgnirvasavedBookings));
+    AgnirvadisplayBookings();
+    AgnirvacloseModal();
+    AgnirvaguestNameInput.value = '';
+    AgnirvaguestEmailInput.value = '';
+    alert("Your booking is confirmed!");
+  });
+
+  AgnirvaclearBookingsBtn.addEventListener('click', () => {
+    if (confirm("Are you sure you want to clear all bookings?")) {
+      localStorage.removeItem('bookings');
+      while (AgnirvabookingsTable.firstChild) {
+        AgnirvabookingsTable.removeChild(AgnirvabookingsTable.firstChild);
+      }
+      AgnirvasavedBookings.length = 0;
+    }
+  });
+
+  function AgnirvasearchAndSortHotels() {
+    const AgnirvalocationValue = document.getElementById('AgnirvalocationInput').value.trim().toLowerCase();
+    const AgnirvacheckInValue = document.getElementById('AgnirvacheckInInput').value;
+    const AgnirvacheckOutValue = document.getElementById('AgnirvacheckOutInput').value;
+    const AgnirvaguestsValue = document.getElementById('AgnirvaguestsInput').value;
+    const AgnirvasortValue = document.getElementById('AgnirvasortInput').value;
+
+    AgnirvasearchParams.location = AgnirvalocationValue;
+    AgnirvasearchParams.checkIn = AgnirvacheckInValue;
+    AgnirvasearchParams.checkOut = AgnirvacheckOutValue;
+    AgnirvasearchParams.guests = AgnirvaguestsValue;
+    AgnirvasearchParams.sortBy = AgnirvasortValue;
+
+    const Agnirvafiltered = Agnirvahotels.filter(h => h.location.toLowerCase().includes(AgnirvalocationValue) || AgnirvalocationValue === "");
+    const Agnirvasorted = AgnirvasortHotels(Agnirvafiltered, AgnirvasearchParams.sortBy);
+    AgnirvarennderHotels(Agnirvasorted);
+  }
+
+  document.getElementById('AgnirvasearchBtn').addEventListener('click', AgnirvasearchAndSortHotels);
+  AgnirvasortInput.addEventListener('change', AgnirvasearchAndSortHotels);
+
+  AgnirvarennderHotels(AgnirvasortHotels(Agnirvahotels, AgnirvasearchParams.sortBy));
+  AgnirvadisplayBookings();
+</script>
+</body>
+</html>
